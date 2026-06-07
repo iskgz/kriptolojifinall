@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Etkileşimli Kriptografik Algoritma Analiz Platformu</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Kriptografi ve Uygulamaları Final Projesi</p>
+        <h1>Etkileşimli Kriptografik Algoritma Analiz Platformu</h1>
+      </div>
+      <div class="status-pill" id="statusPill">Hazır</div>
+    </header>
+
+    <main class="layout">
+      <nav class="sidebar" aria-label="Modüller">
+        <button class="nav-button active" data-panel="aes">AES Görselleştirme</button>
+        <button class="nav-button" data-panel="gf">Galois Alanı</button>
+        <button class="nav-button" data-panel="des">DES / 3-DES</button>
+        <button class="nav-button" data-panel="hash">Hash ve HMAC</button>
+        <button class="nav-button" data-panel="rbg">Rastgele Bit Üretimi</button>
+      </nav>
+
+      <section class="content">
+        <section class="panel active" id="panel-aes">
+          <div class="panel-heading">
+            <div>
+              <h2>AES-128 Round Analizi</h2>
+              <p>AES durum matrisi üzerinde SubBytes, ShiftRows, MixColumns ve AddRoundKey adımlarını ileri/geri inceleyin.</p>
+            </div>
+            <div class="step-controls">
+              <button id="aesPrev" title="Önceki adım">◀</button>
+              <button id="aesNext" title="Sonraki adım">▶</button>
+              <button id="aesPlay" title="Otomatik oynat">Oynat</button>
+              <label>
+                Hız
+                <input id="aesSpeed" type="range" min="300" max="1800" value="900" step="100" />
+              </label>
+            </div>
+          </div>
+
+          <div class="input-grid">
+            <label>
+              Düz metin
+              <input id="aesPlain" value="KriptoFinal2026" maxlength="16" />
+            </label>
+            <label>
+              Anahtar
+              <input id="aesKey" value="AnahtarFinal2026" maxlength="16" />
+            </label>
+            <button id="aesRun">AES adımlarını üret</button>
+          </div>
+
+          <div class="visual-grid">
+            <div class="matrix-wrap">
+              <div class="module-title">
+                <h3 id="aesStepTitle">Başlangıç</h3>
+                <span id="aesStepIndex">0 / 0</span>
+              </div>
+              <div class="state-matrix" id="aesMatrix" aria-label="AES durum matrisi"></div>
+            </div>
+            <div class="explain-box">
+              <h3>Açıklama</h3>
+              <p id="aesExplanation"></p>
+              <div class="result-line"><span>Şifreli çıktı:</span><code id="aesCipher"></code></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-gf">
+          <div class="panel-heading">
+            <div>
+              <h2>GF(2^8) Hesaplayıcı</h2>
+              <p>AES'in MixColumns adımında kullanılan sonlu alan toplama ve çarpma işlemlerini görün.</p>
+            </div>
+          </div>
+          <div class="input-grid">
+            <label>
+              a (hex)
+              <input id="gfA" value="57" maxlength="2" />
+            </label>
+            <label>
+              b (hex)
+              <input id="gfB" value="83" maxlength="2" />
+            </label>
+            <button id="gfRun">Hesapla</button>
+          </div>
+          <div class="two-col">
+            <div class="explain-box">
+              <h3>Sonuçlar</h3>
+              <p id="gfResult"></p>
+            </div>
+            <div class="explain-box">
+              <h3>Çarpma izi</h3>
+              <ol id="gfTrace"></ol>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-des">
+          <div class="panel-heading">
+            <div>
+              <h2>DES / 3-DES Eğitsel Modülü</h2>
+              <p>Basitleştirilmiş Feistel ağı ile DES mantığını ve 3-DES EDE zincirini karşılaştırın.</p>
+            </div>
+          </div>
+          <div class="input-grid">
+            <label>
+              Mesaj
+              <input id="desText" value="CRYPTO42" maxlength="8" />
+            </label>
+            <label>
+              K1
+              <input id="desKey1" value="K1FINAL!" maxlength="8" />
+            </label>
+            <label>
+              K2
+              <input id="desKey2" value="K2FINAL!" maxlength="8" />
+            </label>
+            <button id="desRun">Çalıştır</button>
+          </div>
+          <div class="visual-grid">
+            <div class="round-list" id="desRounds"></div>
+            <div class="explain-box">
+              <h3>Karşılaştırma</h3>
+              <p id="desResult"></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-hash">
+          <div class="panel-heading">
+            <div>
+              <h2>SHA-256 ve HMAC</h2>
+              <p>Veri bütünlüğü için özet, kimlik doğrulama ve bütünlük için HMAC değerlerini üretin.</p>
+            </div>
+          </div>
+          <div class="input-grid">
+            <label>
+              Mesaj
+              <input id="hashText" value="Kriptografi final projesi" />
+            </label>
+            <label>
+              HMAC anahtarı
+              <input id="hmacKey" value="gizli-anahtar" />
+            </label>
+            <button id="hashRun">Özetleri üret</button>
+          </div>
+          <div class="two-col">
+            <div class="explain-box">
+              <h3>SHA-256</h3>
+              <code class="block-code" id="shaOut"></code>
+            </div>
+            <div class="explain-box">
+              <h3>HMAC-SHA-256</h3>
+              <code class="block-code" id="hmacOut"></code>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-rbg">
+          <div class="panel-heading">
+            <div>
+              <h2>Kriptografik Rastgele Bit Üretimi</h2>
+              <p>Tarayıcının CSPRNG kaynağından bit üretin ve basit frekans testini inceleyin.</p>
+            </div>
+          </div>
+          <div class="input-grid">
+            <label>
+              Byte sayısı
+              <input id="rbgCount" type="number" min="4" max="64" value="16" />
+            </label>
+            <button id="rbgRun">Bit üret</button>
+          </div>
+          <div class="two-col">
+            <div class="explain-box">
+              <h3>Bit dizisi</h3>
+              <code class="bit-stream" id="rbgBits"></code>
+            </div>
+            <div class="explain-box">
+              <h3>Frekans testi</h3>
+              <p id="rbgStats"></p>
+              <div class="bar"><span id="rbgBar"></span></div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="src/crypto-core.js"></script>
+    <script src="src/app.js"></script>
+  </body>
+</html>
